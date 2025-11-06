@@ -1,0 +1,146 @@
+body {
+    margin: 0;
+    background: #f0f8ff;
+}
+
+.task2-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 240px);
+    padding: 40px 0;
+}
+
+.content {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background: white;
+    overflow: hidden;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Дно */
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: repeating-linear-gradient(
+            to right,
+            #ffa500 0 11px,
+            #ffd700 11px 22px
+    );
+    z-index: 5;
+}
+
+.ground::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+
+    background-image: radial-gradient(ellipse at center, #a0522d 70%, transparent 71%);
+    background-size: 25px 10px;
+    background-repeat: repeat-x;
+}
+
+/* Рыбка */
+.fish {
+    position: absolute;
+    top: 80px;
+    left: 50px;
+    width: 60px;
+    height: 30px;
+    border-radius: 50%;
+    background:
+        linear-gradient(to right,
+        #fff6cc 0%,
+        #ffeb99 20%,
+        #ffc966 50%,
+        orange 100%);
+}
+
+.fish::before {
+    content: "";
+    position: absolute;
+    right: -20px;
+    top: 0;
+    width: 25px;
+    height: 40px;
+    background: orange;
+    clip-path: path("M -10 17 L 23 4 Q 14 13 18 25 Z");
+}
+
+.fish::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    background: black;
+    border-radius: 50%;
+}
+
+
+.fish.fish1 {
+    z-index: 10;
+    transform: scaleX(-1) rotate(15deg) scale(1.3);
+    top: 65px;
+    left: 20px;
+}
+
+.fish.fish2 {
+    z-index: 11;
+    top: 120px;
+    left: 105px;
+    /*transform: scale(0.8);*/
+}
+
+.fish.fish3 {
+    z-index: 1;
+    transform: rotate(40deg) scale(1.3);
+    top: 60px;
+    left: 150px;
+}
+
+.fish .pattern1 {
+    position: absolute;
+    inset: 0;
+    clip-path: path("M11 26Q33 14 11 4L18 2Q37 14 18 28Z");
+    z-index: 100;
+}
+
+.fish .pattern2 {
+    position: absolute;
+    inset: 0;
+    clip-path: path("M32 0C43 1 39 9 36 10 44 10 43 20 36 20 43 24 39 28 32 30L34 30C43 28 44 24 41 21 46 19 46 10 40 9 42 4 42 0 34 0Z");
+    z-index: 100;
+}
+
+.plant {
+    z-index: 4;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: lime;
+    clip-path: path("M100 160C63 77 114 4 169 17 124 13 69 70 107 159Z");
+}
+
+.plant.plant1 {
+    right: 70px;
+}
+
+.plant.plant2 {
+    right: 0;
+    top: 10px;
+}
+
+.plant.plant3 {
+    transform: scaleX(-1);
+    left: 80px;
+    top: 10px;
+}
