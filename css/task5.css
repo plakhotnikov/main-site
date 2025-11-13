@@ -1,0 +1,105 @@
+:root {
+    --bg: #f6f8fd;
+    --card: #ffffff;
+    --muted: #667085;
+    --text: #1d2433;
+    --accent: #5165ff;
+    --accent-2: #2fb371;
+    --danger: #f35b5b;
+    --border: #dfe5f2;
+    --border-strong: #9ca9d8;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: radial-gradient(1400px 800px at 10% 10%, #ffffff, #f0f3ff), var(--bg);
+    color: var(--text);
+}
+.wrap {
+    max-width: 1000px; margin: 0 auto; padding: 32px 16px 64px;
+}
+.quiz-header { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.quiz-header h1 { font-size: clamp(20px, 3vw, 32px); margin: 0; color: var(--text); }
+.meta, .progress { color: var(--muted); font-size: 14px; }
+
+.banner { margin: 16px 0 8px; padding: 12px 16px; border-radius: 14px;
+    border: 1px dashed var(--border); color: var(--muted); background: rgba(81,101,255,0.08);
+}
+.banner strong { color: var(--text); }
+
+/* Динамическая область */
+.stage { margin-top: 12px; display: grid; gap: 16px; }
+
+/* Карточка вопроса */
+.qcard {
+    border: 1px solid var(--border); background: linear-gradient(180deg, #ffffff, #f6f8ff);
+    border-radius: 18px; padding: 16px; box-shadow: 0 15px 35px rgba(23, 52, 128, 0.08);
+    transition: border-color .2s ease, transform .06s ease; position: relative; overflow: clip;
+}
+.qcard:hover { border-color: var(--border-strong); box-shadow: 0 18px 40px rgba(23, 52, 128, 0.12); }
+.qcard:active { transform: scale(0.997); }
+
+.qhead { display:flex; align-items:center; gap: 10px; }
+.qnum {
+    flex:0 0 auto; width: 36px; height: 36px; display:grid; place-items:center; border-radius: 10px;
+    background: #f0f4ff; border: 1px solid var(--border); color: var(--accent);
+    font-weight: 700;
+}
+.qtitle { font-size: clamp(16px, 2.2vw, 20px); line-height: 1.35; }
+
+.marker { margin-left: auto; display:flex; align-items:center; gap:6px; }
+.marker svg { width: 20px; height: 20px; }
+
+/* Ответы */
+.answers {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+.answers[data-review="1"] {
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+.ans {
+    border: 1.5px solid var(--border); border-radius: 14px; background: #ffffff;
+    padding: 12px 14px; cursor: pointer; user-select: none; position: relative; display:flex; gap:10px;
+    align-items: flex-start; transition: transform .12s ease, border-color .15s ease, box-shadow .15s ease;
+}
+/* При наведении у блока увеличивается рамочка */
+.ans:hover { border-color: var(--border-strong); box-shadow: 0 4px 16px rgba(19,51,137,.12); }
+/* При нажатии блок слегка увеличивается */
+.ans:active { transform: scale(1.02); }
+
+/* Верный ответ разворачивается, появляется пояснение */
+.ans.expanded { transform: scale(1.03); border-color: var(--accent-2); box-shadow: 0 8px 24px rgba(66,211,146,.18); }
+.explain { margin-top: 8px; color: var(--muted); display:none; font-size: 14px; }
+body.review-mode .ans.expanded .explain { display:block; }
+
+/* Полоса «вопросы закончились» */
+.finished-banner { display:none; margin: 12px 0; padding: 12px 16px; border-radius: 14px;
+    background: rgba(47,179,113,0.08); border:1px solid rgba(47,179,113,0.4); color: var(--text);
+}
+.finished-banner.show { display:block; }
+
+/* Статистика */
+.stats { display:none; border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; background:#ffffff; }
+.stats.show { display:block; }
+
+/* Режим обзора (после завершения) */
+.review-note { display:none; color: var(--muted); font-size:14px; margin: 8px 0 0; }
+.review-note.show { display:block; }
+
+/* Анимации сдвига вправо (по условию варианта) */
+.slide-right { animation: slideRight .65s ease forwards; }
+@keyframes slideRight {
+    from { transform: translateX(0); opacity:1; }
+    to   { transform: translateX(60%); opacity:0; }
+}
+
+/* Адаптивность */
+@media (min-width: 680px) {
+    .stage { grid-template-columns: 1fr; }
+}
