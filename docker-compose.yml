@@ -3,7 +3,7 @@ services:
     image: php:8.2-apache
     container_name: main-site-web
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - ./:/var/www/html:ro
     depends_on:
