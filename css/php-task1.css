@@ -1,0 +1,141 @@
+.ticket-page {
+  padding: 60px 0 80px;
+  background: transparent;
+}
+
+.ticket-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #fff;
+  border: 2px solid #111;
+  box-shadow: 8px 8px 0 #111;
+  padding: 28px;
+}
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.ticket-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ticket-field label {
+  min-width: 110px;
+  font-weight: 600;
+  color: #222;
+}
+
+.ticket-field input[type="text"],
+.ticket-field input[type="date"] {
+  padding: 6px 10px;
+  border: 2px solid #111;
+  border-radius: 4px;
+  font-size: 15px;
+  min-width: 220px;
+}
+
+.ticket-options {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0 18px;
+}
+
+.ticket-options label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.ticket-options input {
+  accent-color: #111;
+  width: 18px;
+  height: 18px;
+}
+
+.ticket-city-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ticket-city-list button {
+  border: 2px solid #111;
+  background: #f6f8fb;
+  padding: 8px 12px;
+  border-radius: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ticket-city-list button.is-active {
+  background: #e6edf7;
+  box-shadow: inset 0 0 0 2px #111;
+}
+
+.ticket-submit {
+  margin-top: 16px;
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ticket-submit button {
+  border: 2px solid #111;
+  background: #111;
+  color: #fff;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ticket-summary {
+  margin-top: 28px;
+  border: 2px solid #111;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  gap: 16px;
+  align-items: center;
+  background: #f7f9fc;
+}
+
+.ticket-summary img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #111;
+}
+
+.ticket-errors {
+  margin-top: 16px;
+  color: #b30000;
+  font-weight: 600;
+}
+
+.ticket-hint {
+  margin-top: 10px;
+  color: #555;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .ticket-grid {
+    grid-template-columns: 1fr;
+  }
+  .ticket-summary {
+    grid-template-columns: 1fr;
+  }
+  .ticket-summary img {
+    width: 140px;
+    height: 140px;
+  }
+}
