@@ -102,8 +102,8 @@ $city_image = $city_list[$city] ?? '';
                     <li><a href="task3.html">Задание 3</a></li>
                     <li><a href="task5.html">Задание 5</a></li>
                     <li><a href="task6.html">Задание 6</a></li>
-                    <li><a href="php-task1.php">Задание 1 (PHP)</a></li>
                     <li><a href="hello.php">Hello World</a></li>
+                    <li><a href="php-task1.php">Задание 1 (PHP)</a></li>
                   </ul>
                 </li>
                 <li class="header__nav-item">
