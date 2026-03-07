@@ -18,4 +18,4 @@ jobs:
           script: |
             cd /opt/main-site
             git pull
-            docker compose up -d
+            docker compose up -d --build
