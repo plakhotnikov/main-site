@@ -16,8 +16,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY composer.json composer.lock* ./
-RUN composer install --no-dev --optimize-autoloader || true
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-COPY . .
-RUN if [ ! -d vendor ]; then composer install --no-dev --optimize-autoloader; fi
+ENTRYPOINT ["docker-entrypoint.sh"]
