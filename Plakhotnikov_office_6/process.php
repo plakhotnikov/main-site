@@ -23,6 +23,7 @@ $address = trim($_POST['address'] ?? '');
 $color_name = trim($_POST['color'] ?? '');
 $selected_items = $_POST['items'] ?? [];
 $quantities = $_POST['qty'] ?? [];
+$selected_price_file = basename(trim($_POST['price_file'] ?? ''));
 
 if ($surname === '' || $city === '' || $delivery_date === '' || $address === '' || $color_name === '' || empty($selected_items)) {
     header('Location: index.php');
@@ -48,9 +49,35 @@ $color_multiplier = $colors[$color_name]['multiplier'];
 $color_image_file = __DIR__ . '/src/' . $colors[$color_name]['image'];
 
 // --- Read prices from CSV ---
+$available_csv_files = [];
+foreach (glob(__DIR__ . '/src/*.csv') ?: [] as $csv_file_path) {
+    $available_csv_files[] = basename($csv_file_path);
+}
+
+if (
+    $selected_price_file === ''
+    || !preg_match('/\.csv$/i', $selected_price_file)
+    || !in_array($selected_price_file, $available_csv_files, true)
+) {
+    if (in_array('price.csv', $available_csv_files, true)) {
+        $selected_price_file = 'price.csv';
+    } else {
+        $selected_price_file = $available_csv_files[0] ?? '';
+    }
+}
+
+if ($selected_price_file === '') {
+    header('Location: index.php');
+    exit;
+}
+
 $prices = [];
-$csv_path = __DIR__ . '/src/price.csv';
+$csv_path = __DIR__ . '/src/' . $selected_price_file;
 $csv_content = file_get_contents($csv_path);
+if ($csv_content === false) {
+    header('Location: index.php');
+    exit;
+}
 $csv_content = preg_replace('/^\xEF\xBB\xBF/', '', $csv_content); // Remove BOM
 $lines = preg_split('/\r\n|\r|\n/', $csv_content);
 
