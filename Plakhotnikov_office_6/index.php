@@ -12,6 +12,12 @@ $furniture_items = ['Банкетка', 'Кровать', 'Комод', 'Шка�
 
 $cities = ['Москва', 'Санкт-Петербург', 'Пермь', 'Саратов', 'Самара', 'Казань', 'Новосибирск'];
 
+$csv_files = [];
+foreach (glob(__DIR__ . '/src/*.csv') ?: [] as $csv_path) {
+    $csv_files[] = basename($csv_path);
+}
+sort($csv_files, SORT_NATURAL | SORT_FLAG_CASE);
+
 $result = null;
 if (isset($_GET['success'])) {
     $result = [
@@ -133,6 +139,22 @@ if (isset($_GET['success'])) {
                         </div>
                     <?php endforeach; ?>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="price_file">Файл цен (CSV)</label>
+                <select id="price_file" name="price_file" required <?= empty($csv_files) ? 'disabled' : '' ?>>
+                    <?php if (!empty($csv_files)): ?>
+                        <?php foreach ($csv_files as $csv_file): ?>
+                            <option value="<?= htmlspecialchars($csv_file, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($csv_file, ENT_QUOTES, 'UTF-8') ?></option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="">CSV-файлы в папке src не найдены</option>
+                    <?php endif; ?>
+                </select>
+                <?php if (empty($csv_files)): ?>
+                    <input type="hidden" name="price_file" value="" />
+                <?php endif; ?>
             </div>
 
             <div class="form-submit">
