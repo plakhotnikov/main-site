@@ -8,6 +8,7 @@ services:
       - ./:/var/www/html
     depends_on:
       - db
+      - mailpit
   db:
     image: mysql:8.0
     container_name: main-site-db
@@ -21,6 +22,13 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+  mailpit:
+    image: axllent/mailpit
+    container_name: main-site-mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
 
 volumes:
   db_data:
