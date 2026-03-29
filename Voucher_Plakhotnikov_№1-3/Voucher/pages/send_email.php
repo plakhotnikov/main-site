@@ -197,51 +197,50 @@ $html_body = '
 </body>
 </html>';
 
-// Формируем письмо с inline-картинкой и вложением
-$to = $client_email;
-$subject = '=?UTF-8?B?' . base64_encode('Для заказа «Туристическая путевка»') . '?=';
-$boundary = md5(time());
-$boundary_alt = md5(time() . 'alt');
+// Отправка через PHPMailer + Gmail SMTP
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
-$headers = "From: noreply@voucher.local\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n";
+$mail = new PHPMailer(true);
 
-// HTML часть (multipart/related для inline-картинки)
-$body = "--{$boundary}\r\n";
-$body .= "Content-Type: multipart/related; boundary=\"{$boundary_alt}\"\r\n\r\n";
+try {
+    // SMTP настройки
+    $mail->isSMTP();
+    require_once __DIR__ . '/mail_config.php';
+    $mail->Host = SMTP_HOST;
+    $mail->SMTPAuth = true;
+    $mail->Username = SMTP_USER;
+    $mail->Password = SMTP_PASS;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = SMTP_PORT;
+    $mail->CharSet = 'UTF-8';
 
-$body .= "--{$boundary_alt}\r\n";
-$body .= "Content-Type: text/html; charset=UTF-8\r\n";
-$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-$body .= chunk_split(base64_encode($html_body)) . "\r\n";
+    // Адреса
+    $mail->setFrom(SMTP_USER, SMTP_FROM_NAME);
+    $mail->addAddress($client_email, $client_name);
 
-// Inline-картинка
-if ($has_image) {
-    $body .= "--{$boundary_alt}\r\n";
-    $body .= "Content-Type: {$image_mime}; name=\"tour.jpg\"\r\n";
-    $body .= "Content-Transfer-Encoding: base64\r\n";
-    $body .= "Content-ID: <{$image_cid}>\r\n";
-    $body .= "Content-Disposition: inline; filename=\"tour.jpg\"\r\n\r\n";
-    $body .= chunk_split(base64_encode($image_data)) . "\r\n";
+    // Тема
+    $mail->Subject = 'Для заказа «Туристическая путевка»';
+
+    // HTML тело
+    $mail->isHTML(true);
+    $mail->Body = $html_body;
+
+    // Inline-картинка
+    if ($has_image && $image_abs_path) {
+        $mail->addEmbeddedImage($image_abs_path, $image_cid, 'tour.jpg');
+    }
+
+    // Вложение DOCX
+    if ($attachment_path && file_exists($attachment_path)) {
+        $mail->addAttachment($attachment_path, $attachment_name);
+    }
+
+    $mail->send();
+    $sent = true;
+} catch (\Exception $e) {
+    $sent = false;
 }
-
-$body .= "--{$boundary_alt}--\r\n";
-
-// Вложение DOCX
-if ($attachment_path && file_exists($attachment_path)) {
-    $file_content = file_get_contents($attachment_path);
-    $body .= "--{$boundary}\r\n";
-    $body .= "Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document; name=\"{$attachment_name}\"\r\n";
-    $body .= "Content-Disposition: attachment; filename=\"{$attachment_name}\"\r\n";
-    $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-    $body .= chunk_split(base64_encode($file_content)) . "\r\n";
-}
-
-$body .= "--{$boundary}--";
-
-// Отправка
-$sent = @mail($to, $subject, $body, $headers);
 
 if ($sent) {
     header('Location: basket.php?mail_ok=1');
