@@ -1,12 +1,46 @@
- div{font-family:Tahoma; font-size:10px;  color:#7E7E76; }
-  .title{font-family:Tahoma; font-size:10px;  color:#7C994A; text-decoration:none }
-  
- a
- {
-    font-family:Tahoma; font-size:10px;  color:#7C994A; text-decoration:none
- }
- a:hover
- {color:#7C0000; }
+body, div, td, th, label, span, p, font { font-family: Tahoma; font-size: 10px; color: #7E7E76; -webkit-text-size-adjust: 100%; }
+.title { font-family: Tahoma; font-size: 10px; color: #7C994A; text-decoration: none; }
 
+a { font-family: Tahoma; font-size: 10px; color: #7C994A; text-decoration: none; }
+a:hover { color: #7C0000; }
 
-  
+/* Auth */
+.auth-status { font-family: Tahoma; font-size: 10px; color: #7E7E76; text-align: center; margin-top: 5px; }
+.auth-form label { display: block; margin-bottom: 2px; }
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+    font-family: Tahoma; font-size: 10px; border: 1px solid #7E7E76;
+    padding: 2px 4px; width: 130px; margin-bottom: 4px;
+}
+.auth-form input[type="submit"],
+.btn {
+    font-family: Tahoma; font-size: 10px; background: #f0f0e8;
+    border: 1px solid #7E7E76; padding: 2px 10px; cursor: pointer; color: #7E7E76;
+}
+.auth-form input[type="submit"]:hover,
+.btn:hover { background: #e0e0d0; color: #7C0000; }
+.auth-error { color: #7C0000; font-family: Tahoma; font-size: 10px; margin-top: 4px; }
+.auth-link { margin-top: 4px; }
+
+/* Forms */
+.form-label { font-family: Tahoma; font-size: 10px; color: #7C994A; font-weight: bold; margin-bottom: 3px; }
+select, input[type="text"], input[type="email"], input[type="tel"], input[type="number"] {
+    font-family: Tahoma; font-size: 10px; border: 1px solid #7E7E76;
+    padding: 2px 4px; color: #7E7E76;
+}
+input[type="radio"], input[type="checkbox"] { margin-right: 3px; vertical-align: middle; }
+.radio-label, .checkbox-label {
+    font-family: Tahoma; font-size: 10px; color: #7E7E76;
+    display: block; margin-bottom: 2px;
+}
+.btn-row { text-align: right; margin-top: 6px; }
+
+/* Basket */
+.info-block { font-family: Tahoma; font-size: 10px; color: #7E7E76; margin-bottom: 4px; }
+.info-block b { color: #7C994A; }
+.price-row { display: flex; justify-content: space-between; margin-bottom: 2px; }
+.total-sum { font-weight: bold; color: #7C994A; font-size: 11px; border-top: 1px solid #7E7E76; padding-top: 3px; margin-top: 4px; }
+.basket-image { max-width: 230px; max-height: 150px; width: auto; height: auto; display: block; margin-bottom: 6px; }
+.message-ok { color: #7C994A; font-family: Tahoma; font-size: 10px; font-weight: bold; }
+.message-error { color: #7C0000; font-family: Tahoma; font-size: 10px; font-weight: bold; }
+

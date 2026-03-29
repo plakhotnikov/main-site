@@ -8,9 +8,17 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libreoffice-writer \
+    msmtp \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Настройка msmtp для отправки почты через Mailpit
+RUN echo "account default\nhost mailpit\nport 1025\nfrom noreply@voucher.local\nauth off\ntls off" > /etc/msmtprc \
+    && chmod 644 /etc/msmtprc
+
+# PHP sendmail через msmtp
+RUN echo "sendmail_path = /usr/bin/msmtp -t" > /usr/local/etc/php/conf.d/mail.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
