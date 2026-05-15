@@ -5,8 +5,12 @@
 -- СУБД: MySQL 8.0, движок InnoDB, кодировка utf8mb4_unicode_ci
 -- =====================================================================
 
-SET NAMES utf8mb4;
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- Выровняем дефолтную коллацию схемы под таблицы (требуется для CALL процедур
+-- — иначе латинские параметры конфликтуют с utf8mb4-таблицами).
+ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------
 -- Удаление в обратном порядке зависимостей (для повторного применения)
@@ -80,8 +84,9 @@ CREATE TABLE users (
     full_name   VARCHAR(150) NOT NULL,
     phone       VARCHAR(30),
     email       VARCHAR(100),
-    is_active   TINYINT(1)   NOT NULL DEFAULT 1,
-    created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active      TINYINT(1)   NOT NULL DEFAULT 1,
+    remember_token VARCHAR(64),                            -- токен для cookie «Запомнить меня»
+    created_at     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_users_role
         FOREIGN KEY (role_id) REFERENCES roles(id)
         ON DELETE RESTRICT ON UPDATE CASCADE
@@ -211,3 +216,4 @@ CREATE INDEX ix_requests_created    ON requests(created_at);
 CREATE INDEX ix_consultations_req   ON consultations(request_id);
 CREATE INDEX ix_payments_req        ON payments(request_id);
 CREATE INDEX ix_services_category   ON services(category_id);
+CREATE INDEX ix_users_remember      ON users(remember_token);

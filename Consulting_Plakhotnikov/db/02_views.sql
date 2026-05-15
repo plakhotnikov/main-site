@@ -3,6 +3,8 @@
 -- Файл: 02_views.sql — представления
 -- =====================================================================
 
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 DROP VIEW IF EXISTS v_client_requests;
 DROP VIEW IF EXISTS v_consultant_workload;
 DROP VIEW IF EXISTS v_revenue_by_category;

@@ -3,6 +3,11 @@
 -- Файл: 03_routines.sql — хранимые процедуры и функции
 -- =====================================================================
 
+-- Явная кодировка соединения. Без этого процедуры запоминают
+-- character_set_client клиента (часто latin1), что приводит к ошибкам
+-- "Illegal mix of collations" при работе с utf8mb4-таблицами.
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 DROP PROCEDURE IF EXISTS sp_assign_consultant;
 DROP PROCEDURE IF EXISTS sp_change_status;
 DROP PROCEDURE IF EXISTS sp_bulk_delete_requests;
@@ -20,7 +25,8 @@ CREATE PROCEDURE sp_assign_consultant(
 )
 BEGIN
     DECLARE v_status_id TINYINT UNSIGNED;
-    SELECT id INTO v_status_id FROM request_statuses WHERE code = 'assigned' LIMIT 1;
+    SELECT id INTO v_status_id FROM request_statuses
+     WHERE code = 'assigned' COLLATE utf8mb4_unicode_ci LIMIT 1;
 
     UPDATE requests
        SET consultant_id = p_consultant_id,
@@ -34,12 +40,13 @@ END $$
 -- ---------------------------------------------------------------------
 CREATE PROCEDURE sp_change_status(
     IN p_request_id  INT UNSIGNED,
-    IN p_status_code VARCHAR(30),
-    IN p_comment     TEXT
+    IN p_status_code VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    IN p_comment     TEXT        CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
 )
 BEGIN
     DECLARE v_status_id TINYINT UNSIGNED;
-    SELECT id INTO v_status_id FROM request_statuses WHERE code = p_status_code LIMIT 1;
+    SELECT id INTO v_status_id FROM request_statuses
+     WHERE code = p_status_code COLLATE utf8mb4_unicode_ci LIMIT 1;
 
     UPDATE requests SET status_id = v_status_id WHERE id = p_request_id;
 
@@ -55,7 +62,9 @@ END $$
 --    Каскадно удалит consultations / request_services / reports / payments.
 --    Используется для кнопки "Удалить выбранное" с чекбоксами.
 -- ---------------------------------------------------------------------
-CREATE PROCEDURE sp_bulk_delete_requests(IN p_ids TEXT)
+CREATE PROCEDURE sp_bulk_delete_requests(
+    IN p_ids TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+)
 BEGIN
     SET @sql = CONCAT('DELETE FROM requests WHERE id IN (', p_ids, ')');
     PREPARE stmt FROM @sql;

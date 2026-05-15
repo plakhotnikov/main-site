@@ -28,6 +28,7 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./Consulting_Plakhotnikov/db:/docker-entrypoint-initdb.d:ro
   mailpit:
     image: axllent/mailpit
     container_name: main-site-mailpit
