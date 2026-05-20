@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     libreoffice-writer \
     msmtp \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip \
+    && docker-php-ext-install gd zip pdo pdo_mysql mysqli \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Настройка msmtp для отправки почты через Mailpit
