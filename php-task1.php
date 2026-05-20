@@ -106,6 +106,7 @@ $city_image = $city_list[$city] ?? '';
                     <li><a href="php-task1.php">Задание 1 (PHP)</a></li>
                     <li><a href="Plakhotnikov_office_6/index.php">Заказ мебели</a></li>
                     <li><a href="Voucher_Plakhotnikov_№1-3/Voucher/index.php">Voucher</a></li>
+                    <li><a href="Consulting_Plakhotnikov/public/index.php">Личный кабинет (6 лаба, 2 сем)</a></li>
                   </ul>
                 </li>
                 <li class="header__nav-item">
