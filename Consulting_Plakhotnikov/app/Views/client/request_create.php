@@ -66,6 +66,18 @@ use App\Core\Csrf;
         </div>
 
         <hr class="divider">
+        <h3>Оплата *</h3>
+        <div class="form-field">
+            <label>Способ оплаты</label>
+            <div class="radio-group">
+                <label><input type="radio" name="payment_method" value="card" checked> Карта</label>
+                <label><input type="radio" name="payment_method" value="transfer"> Банковский перевод</label>
+                <label><input type="radio" name="payment_method" value="cash"> Наличные</label>
+            </div>
+            <small>Списывается полная стоимость заявки (основная услуга + выбранные доп. услуги)</small>
+        </div>
+
+        <hr class="divider">
         <h3>Контактные данные для этой заявки</h3>
         <div class="form-row">
             <div class="form-field">

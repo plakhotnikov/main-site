@@ -78,6 +78,7 @@ final class ClientController
         $contactPhone = trim((string)($_POST['contact_phone'] ?? ''));
         $contactEmail = trim((string)($_POST['contact_email'] ?? ''));
         $contactInn   = trim((string)($_POST['contact_inn'] ?? ''));
+        $paymentMethod = (string)($_POST['payment_method'] ?? '');
 
         $errors = [];
         if ($serviceId <= 0)              { $errors[] = 'Выберите основную услугу'; }
@@ -85,6 +86,9 @@ final class ClientController
         if ($description === '')          { $errors[] = 'Опишите задачу'; }
         if (!in_array($priority, ['low', 'normal', 'high'], true)) {
             $errors[] = 'Некорректный приоритет';
+        }
+        if (!in_array($paymentMethod, ['cash', 'card', 'transfer'], true)) {
+            $errors[] = 'Выберите способ оплаты';
         }
         if ($contactEmail !== '' && !filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'Некорректный email';
@@ -137,6 +141,14 @@ final class ClientController
                     RequestService::attach($requestId, $sid);
                 }
             }
+
+            $total = RequestModel::totalCost($requestId);
+            Payment::create([
+                'request_id' => $requestId,
+                'amount'     => $total,
+                'method'     => $paymentMethod,
+            ]);
+
             Database::pdo()->commit();
         } catch (\Throwable $e) {
             Database::pdo()->rollBack();
@@ -144,7 +156,7 @@ final class ClientController
             Helpers::redirect('client_request_create');
         }
 
-        Helpers::flash('success', "Заявка #{$requestId} создана");
+        Helpers::flash('success', "Заявка #{$requestId} создана, оплата принята");
         Helpers::redirect('client_request_view', ['id' => $requestId]);
     }
 
