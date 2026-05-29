@@ -53,6 +53,7 @@ final class Router
         'consultant_add_consultation'  => [ConsultantController::class, 'addConsultation'],
         'consultant_create_report'     => [ConsultantController::class, 'createReportForm'],
         'consultant_save_report'       => [ConsultantController::class, 'saveReport'],
+        'consultant_report_download'   => [ConsultantController::class, 'downloadReport'],
 
         // Admin
         'admin_dashboard'           => [DashboardController::class, 'index'],

@@ -191,4 +191,33 @@ final class ConsultantController
         Helpers::redirect('consultant_request_view', ['id' => $id]);
     }
 
+    public function downloadReport(): void
+    {
+        Auth::requireRole('consultant');
+        $id = (int)($_GET['id'] ?? 0);
+        $req = RequestModel::clientView($id);
+        if ($req === null || (int)($req['consultant_id'] ?? 0) !== Auth::consultantId()) {
+            Helpers::flash('error', 'Заявка вам не назначена');
+            Helpers::redirect('consultant_requests');
+        }
+        $report = Report::findByRequest($id);
+        if ($report === null || empty($report['file_path'])) {
+            Helpers::flash('error', 'Отчёт ещё не сформирован');
+            Helpers::redirect('consultant_request_view', ['id' => $id]);
+        }
+        $reportsDir = (string)$GLOBALS['APP_CONFIG']['app']['reports_dir'];
+        $filePath = $reportsDir . '/' . basename($report['file_path']);
+        if (!is_file($filePath)) {
+            Helpers::flash('error', 'Файл отчёта недоступен');
+            Helpers::redirect('consultant_request_view', ['id' => $id]);
+        }
+        $name = basename($filePath);
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment; filename="' . $name . '"');
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+        exit;
+    }
+
 }
