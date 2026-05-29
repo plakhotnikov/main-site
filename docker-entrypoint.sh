@@ -7,4 +7,7 @@ chown -R www-data:www-data /var/www/html/Plakhotnikov_office_6/generated
 mkdir -p "/var/www/html/Voucher_Plakhotnikov_№1-3/Voucher/generated"
 chown -R www-data:www-data "/var/www/html/Voucher_Plakhotnikov_№1-3/Voucher/generated"
 
+mkdir -p /var/www/html/Consulting_Plakhotnikov/storage/reports
+chown -R www-data:www-data /var/www/html/Consulting_Plakhotnikov/storage
+
 exec apache2-foreground
