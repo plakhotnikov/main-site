@@ -91,6 +91,9 @@ $allowedTransitions = ['in_progress', 'review', 'completed', 'cancelled'];
             <a class="btn" href="<?= h(url('consultant_create_report', ['id' => $request['id']])) ?>">
                 <?= $report === null ? 'Создать отчёт' : 'Обновить отчёт' ?>
             </a>
+            <?php if ($report !== null && !empty($report['file_path'])): ?>
+                <a class="btn btn--ghost" href="<?= h(url('consultant_report_download', ['id' => $request['id']])) ?>">⬇ Скачать DOCX</a>
+            <?php endif; ?>
         </div>
     </div>
 
